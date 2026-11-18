@@ -24,8 +24,10 @@ build-backend = "uv_build"
 [dependency-groups]
 dev = [
     "mypy>=2.4.1",
+    "psycopg[binary]>=3.3.9",
     "pytest>=9.2.0",
     "ruff>=0.17.5",
+    "testcontainers[postgres]>=4.15.0",
 ]
 [tool.ruff]
 target-version = "py312"
@@ -33,7 +35,7 @@ line-length = 88
 src = ["src"]
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP", "B"]
+select = ["E", "F", "I", "UP", "B", "TID"]
 
 [tool.mypy]
 python_version = "3.12"
@@ -46,3 +48,11 @@ no_implicit_optional = true
 testpaths = ["tests"]
 pythonpath = ["src"]
 addopts = "-ra"
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"datetime.datetime.now" = { msg = "Use Clock instead." }
+"uuid.uuid4" = { msg = "Use IdGen instead." }
+
+[tool.ruff.lint.per-file-ignores]
+"src/replay/clock.py" = ["TID251"]
+"src/replay/idgen.py" = ["TID251"]
