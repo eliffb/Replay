@@ -123,6 +123,18 @@ def get_run_events(run_id: str) -> list[dict[str, object]]:
         with psycopg.connect(DATABASE_URL) as conn:
             with conn.cursor() as cur:
                 cur.execute(
+                    "SELECT 1 FROM runs WHERE id = %s",
+                    (run_id,),
+                )
+                run_exists = cur.fetchone()
+
+                if run_exists is None:
+                    raise HTTPException(
+                        status_code=404,
+                        detail="Run not found",
+                    )
+
+                cur.execute(
                     """
                     SELECT seq, type, schema_version, payload, created_at
                     FROM events
