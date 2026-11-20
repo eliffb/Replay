@@ -1,4 +1,10 @@
 import os
 
-APP_NAME = os.getenv("APP_NAME", "Replay")
-APP_ENV = os.getenv("APP_ENV", "development")
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+APP_NAME = os.environ["APP_NAME"]
+APP_ENV = os.environ["APP_ENV"]
+DATABASE_URL = os.environ["DATABASE_URL"]

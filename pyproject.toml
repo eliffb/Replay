@@ -11,6 +11,7 @@ requires-python = ">=3.12,<3.13"
 dependencies = [
     "fastapi>=0.163.0",
     "pydantic>=2.14.3",
+    "python-dotenv>=1.2.4",
     "uvicorn>=0.54.0",
 ]
 
@@ -56,3 +57,9 @@ addopts = "-ra"
 [tool.ruff.lint.per-file-ignores]
 "src/replay/clock.py" = ["TID251"]
 "src/replay/idgen.py" = ["TID251"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/replay"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/replay/py.typed" = "replay/py.typed"
